@@ -5,10 +5,11 @@ export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`).searchParams.get('url');
   if (!url) return res.status(400).json({ error: 'URL wajib diisi' });
 
+  // sparticuz sudah bawa semua lib
   const browser = await puppeteer.launch({
     args: [...chromium.args, '--disable-dev-shm-usage', '--no-sandbox'],
-    executablePath: await chromium.executablePath(), // tanpa parameter tambahan
-    headless: 'shell',
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
   });
 
   try {
