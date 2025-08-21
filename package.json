@@ -2,8 +2,8 @@
   "name": "xavi-bypass",
   "type": "module",
   "engines": { "node": "22.x" },
-  "dependencies": {
-    "@sparticuz/chromium": "^119.0.0",
-    "puppeteer-core": "^21.11.0"
-  }
+"dependencies": {
+  "@sparticuz/chromium": "^119.0.0",
+  "puppeteer-core": "^21.11.0"
+}
 }
