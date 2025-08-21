@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   const browser = await puppeteer.launch({
     args: [...chromium.args, '--disable-dev-shm-usage', '--no-sandbox'],
-    executablePath: await chromium.executablePath, // tanpa parameter tambahan
+    executablePath: await chromium.executablePath(), // tanpa parameter tambahan
     headless: 'shell',
   });
 
