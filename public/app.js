@@ -1,33 +1,23 @@
-const api = '/api/bypass?url=';
-const url = document.getElementById('url');
-const btn = document.getElementById('btn');
-const loader = document.getElementById('loader');
-const res = document.getElementById('res');
-const dest = document.getElementById('dest');
-const go = document.getElementById('go');
+import chromium from '@sparticuz/chromium';
+import puppeteer from 'puppeteer-core';
 
-btn.onclick = async () => {
-  const u = url.value.trim();
-  if(!u) return alert('Masukkan URL dulu!');
+export default async function handler(req, res) {
+  const url = new URL(req.url, `http://${req.headers.host}`).searchParams.get('url');
+  if (!url) return res.status(400).json({ error: 'URL required' });
 
-  btn.disabled = true;
-  loader.classList.remove('hidden');
-  res.classList.add('hidden');
-
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
+  });
   try {
-    const r = await fetch(api + encodeURIComponent(u));
-    const j = await r.json();
-    if(j.destination){
-      dest.textContent = j.destination;
-      go.href = j.destination;
-      res.classList.remove('hidden');
-    }else throw new Error(j.error);
-  } catch(e) {
-    dest.textContent = '❌ ' + e.message;
-    res.classList.remove('hidden');
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 15000 });
+    const dest = await page.evaluate(() => document.location.href);
+    res.json({ destination: dest });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   } finally {
-    loader.classList.add('hidden');
-    btn.disabled = false;
+    await browser.close();
   }
-};
-url.addEventListener('keyup', e => e.key==='Enter' && btn.click());
+}
