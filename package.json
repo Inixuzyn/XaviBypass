@@ -1,20 +1,12 @@
 {
   "name": "bypass-vercel",
   "version": "1.0.0",
-  "description": "Fast serverless bypass for Loot-, Linkvertise, Boost.ink, etc.",
-  "main": "api/bypass.js",
-  "scripts": {
-    "dev": "vercel dev"
-  },
+  "type": "module",
   "dependencies": {
-    "chrome-aws-lambda": "^10.1.0",
-    "express": "^4.19.2",
+    "@sparticuz/chromium": "^119.0.0",
     "puppeteer-core": "^21.11.0"
   },
-  "devDependencies": {
-    "vercel": "^34.2.0"
-  },
   "engines": {
-    "node": ">=18.x"
+    "node": "18.x"
   }
 }
