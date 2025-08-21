@@ -1,12 +1,10 @@
 {
-  "name": "bypass-vercel",
+  "name": "xavi-bypass",
   "version": "1.0.0",
   "type": "module",
+  "engines": { "node": "22.x" },
   "dependencies": {
     "@sparticuz/chromium": "^119.0.0",
     "puppeteer-core": "^21.11.0"
-  },
-  "engines": {
-    "node": "22.x"
   }
 }
