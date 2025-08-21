@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+:root{
+  --bg:#0a0a0a;
+  --card:#111111cc;
+  --accent:#00ffff;
+  --text:#ffffff;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+body{background:var(--bg);color:var(--text);display:flex;flex-direction:column;align-items:center;padding:2rem 1rem}
+header{text-align:center;margin-bottom:2rem}
+h1{font-size:2.4rem;color:var(--accent);text-shadow:0 0 8px var(--accent)}
+input{width:100%;max-width:500px;padding:1rem;border:none;border-radius:var(--radius);background:var(--card);color:var(--text)}
+button{margin:1rem 0;padding:1rem 2.5rem;border:none;border-radius:var(--radius);background:var(--accent);color:#000;font-weight:700;cursor:pointer;transition:.3s}
+button:hover{filter:brightness(1.2)}
+#loader{border:3px solid transparent;border-top:3px solid var(--accent);border-radius:50%;width:28px;height:28px;animation:spin 1s linear infinite;margin:1rem auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none}
+#res{margin-top:1.5rem;max-width:500px;text-align:center}
+pre{background:var(--card);padding:1rem;border-radius:var(--radius);white-space:pre-wrap;word-break:break-all;font-size:.9rem;margin-bottom:.5rem}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+#about{max-width:600px;margin-top:2.5rem;text-align:center}
+#about ul{list-style:none;margin-top:1rem}
+footer{margin-top:3rem;font-size:.8rem;color:#666}
+footer a{margin:0 .5rem;color:var(--accent)}
