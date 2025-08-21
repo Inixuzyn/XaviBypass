@@ -1,23 +1,41 @@
-import chromium from '@sparticuz/chromium';
-import puppeteer from 'puppeteer-core';
+const api = '/api/bypass?url=';
+const url = document.getElementById('url');
+const btn = document.getElementById('btn');
+const loader = document.getElementById('loader');
+const res = document.getElementById('res');
+const dest = document.getElementById('dest');
+const go = document.getElementById('go');
 
-export default async function handler(req, res) {
-  const url = new URL(req.url, `http://${req.headers.host}`).searchParams.get('url');
-  if (!url) return res.status(400).json({ error: 'URL required' });
-
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
-  try {
-    const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 15000 });
-    const dest = await page.evaluate(() => document.location.href);
-    res.json({ destination: dest });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  } finally {
-    await browser.close();
-  }
+function toast(msg, err = false){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  t.style = `position:fixed;top:1rem;right:1rem;padding:.8rem 1.2rem;border-radius:8px;color:#fff;background:${err?'var(--err)':'#00b894'}`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
 }
+
+btn.onclick = async () => {
+  const u = url.value.trim();
+  if(!u) return toast('URL wajib diisi!',true);
+
+  btn.disabled = true;
+  loader.classList.remove('hidden');
+  res.classList.add('hidden');
+
+  try {
+    const r = await fetch(api + encodeURIComponent(u));
+    const j = await r.json();
+    if(j.destination){
+      dest.textContent = j.destination;
+      go.href = j.destination;
+      res.classList.remove('hidden');
+    }else throw new Error(j.error || 'Unknown error');
+  } catch(e) {
+    toast('❌ ' + e.message,true);
+    console.error(e);
+  } finally {
+    loader.classList.add('hidden');
+    btn.disabled = false;
+  }
+};
+url.addEventListener('keyup', e => e.key==='Enter' && btn.click());
