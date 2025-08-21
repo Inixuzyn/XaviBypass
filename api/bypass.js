@@ -7,11 +7,12 @@ export default async function handler(req, res) {
 
   console.log('[DEBUG] bypass url:', url);
 
-  const browser = await puppeteer.launch({
+    const browser = await puppeteer.launch({
     args: [...chromium.args, '--disable-dev-shm-usage'],
-    executablePath: await chromium.executablePath,
+    executablePath: await chromium.executablePath(), // <-- tambah await
     headless: chromium.headless,
   });
+
 
   try {
     const page = await browser.newPage();
